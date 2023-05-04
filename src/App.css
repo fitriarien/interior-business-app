@@ -1,0 +1,15 @@
+.App {
+
+}
+
+.submitButton {
+  background-color: #60543e;
+}
+
+.submitButton:hover {
+  background-color: #fbf6d6;
+}
+
+.hometext {
+  color: #fbf6d6;
+}
