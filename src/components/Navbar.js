@@ -32,7 +32,7 @@ const Navbar = () => {
           <NavLink 
             className="text-white hover:font-bold" 
             to='/image' 
-            tyle={({ isActive }) => ({ fontWeight: isActive ? "bold" : "normal" })}
+            style={({ isActive }) => ({ fontWeight: isActive ? "bold" : "normal" })}
           >
             Images
           </NavLink>

@@ -5,7 +5,7 @@ import { serverBase } from '../util/serverApi';
 
 const ImageCard = ({image, setImages}) => {
   const deleteImage = () => {
-    serverBase.put(`image/${image.image_id}/${localStorage.getItem('id')}`, null)
+    serverBase.put(`image/${image.image_id}/${localStorage.getItem('id')}`, null, localStorage.getItem('token'))
     .then(data => {
       setImages((prevItems) =>
         prevItems.filter((prevItem) => prevItem.image_id !== image.image_id)

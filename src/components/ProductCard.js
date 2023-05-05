@@ -5,7 +5,7 @@ import { serverBase } from '../util/serverApi';
 
 const ProductCard = ({product, setProducts, handleEditClick}) => {
   const deleteProduct = () => {
-    serverBase.put(`product/delete/${product.product_id}/${localStorage.getItem('id')}`, null)
+    serverBase.put(`product/delete/${product.product_id}/${localStorage.getItem('id')}`, null, localStorage.getItem('token'))
     .then(data => {
       setProducts((prevProducts) =>
         prevProducts.filter((prevProduct) => prevProduct.product_id !== product.product_id)

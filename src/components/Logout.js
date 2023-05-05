@@ -12,7 +12,7 @@ const Logout = () => {
   function logout(e) {
     e.preventDefault();
 
-    serverBase.post('logout', null)
+    serverBase.post('logout', null, localStorage.getItem('token'))
     .then(data => {
       localStorage.clear();
       dispatch({type: 'LOGOUT'});

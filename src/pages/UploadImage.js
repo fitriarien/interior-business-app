@@ -43,7 +43,7 @@ const UploadImage = () => {
     serverBase.post(`image/${localStorage.getItem('id')}`, {
       image_name: dataImage.name,
       image: dataImage.path
-    })
+    }, localStorage.getItem('token'))
     .then(data => {
       console.log("Upload Image Success.");
       Swal.fire(
@@ -129,7 +129,7 @@ const UploadImage = () => {
           <div className="-space-y-px">
             <div className="my-5">
             <label htmlFor="name">
-              Image/Product Name
+              Alt Image
             </label>
             <input
               onChange={handleChange}

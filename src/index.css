@@ -11,6 +11,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: url('./assets/260758.jpg');
   background-size: cover;
+  background-attachment: fixed;
   background-position: fixed;
 }
 

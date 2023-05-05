@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { serverRoot } from '../util/serverApi';
@@ -9,6 +9,25 @@ const Login = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [ userLogin, setUserLogin ] = useState({ username: "", password: ""});
+  const [username, setUsername] = useState('');
+  const [isValidUname, setIsValidUname] = useState(false);
+  const [password, setPassword] = useState('');
+  const [isValidPass, setIsValidPass] = useState(false);
+
+  useEffect(() => {
+    const regexUname = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$/;
+    setIsValidUname(regexUname.test(username));
+    const regexPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    setIsValidPass(regexPassword.test(password));
+  }, [username, password]);
+
+  function handleUname(e) {
+    setUsername(e.target.value);
+  };
+
+  function handlePassword(e) {
+    setPassword(e.target.value);
+  };
 
   function handleChange(e) {
     e.preventDefault();
@@ -23,18 +42,41 @@ const Login = () => {
   }
 
   function authenticateUser() {
-    serverRoot.post('login', userLogin)
+    serverRoot.post('login', {
+      username: username,
+      password: password
+    })
     .then(data => {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("id", data.id);
-      dispatch({type: 'LOGIN'});
-
-      if (location.state) {
-          navigate(`${location.state.from.pathname}`)
+      if (data === 403) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Password is wrong!'
+        });
+      } else if  (data === 404) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Your account is not found!'
+        });
+      } else if (data === 406) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Your account is inactive!'
+        });
       } else {
-          navigate('/');
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("id", data.id);
+        dispatch({type: 'LOGIN'});
+
+        if (location.state) {
+            navigate(`${location.state.from.pathname}`)
+        } else {
+            navigate('/');
+        }
+        console.log("Login Success.");
       }
-      console.log("Login Success.");
     })
     .catch(err => {
       Swal.fire({
@@ -101,28 +143,30 @@ const Login = () => {
               Username
             </label>
             <input
-              onChange={handleChange}
-              value={userLogin.username}
+              onChange={handleUname}
+              value={username}
               id="username"
               name="username"
-              type="username"
+              type="text"
               className="rounded-md appearance-none relative self-center  block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="Username"
             />
+            {!isValidUname && username && <p className='text-white text-sm'>Invalid username</p>}
           </div>
           <div className="my-5">
             <label htmlFor='password' className="sr-only">
               Password
             </label>
             <input
-              onChange={handleChange}
-              value={userLogin.password}
+              onChange={handlePassword}
+              value={password}
               id="password"
               name="password"
               type="password"
-              className="my-5 rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              className="rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               placeholder="Password"
             />
+            {!isValidPass && password && <p className='text-white text-sm mb-5'>Invalid Password</p>}
           </div>
           <button
             type="submit"

@@ -7,7 +7,7 @@ const DeleteImage = () => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    serverBase.get('image/')
+    serverBase.get('image/', localStorage.getItem('token'))
     .then(data => {
       const filteredImages = data.filter(item => item.image_status !== 0);
       setImages(filteredImages);
@@ -53,7 +53,7 @@ const DeleteImage = () => {
   }, []);
 
   return (
-    <div className='container mx-auto pt-4 pb-10 my-5 bg-white opacity-80 rounded-xl'>
+    <div className='container mx-auto pt-4 pb-10 my-5 bg-white rounded-xl'>
       <div className="py-5 px-2 flex flex-row flex-wrap justify-center">
         {images.map((image) => {
           return (

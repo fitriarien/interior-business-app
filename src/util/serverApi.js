@@ -1,5 +1,3 @@
-const token = localStorage.getItem('token');
-
 const serverRoot = {
   baseURL: 'http://localhost:8081/',
   responseType: 'json',
@@ -13,7 +11,13 @@ const serverRoot = {
       body: JSON.stringify(body)
     });
     const data = await response.json();
-    return data;
+    if (response.ok) {
+      console.log(response.status);
+      return data;
+    } else {
+      // throw new Error(response.status);
+      return response.status;
+    }
   }
 }
 
@@ -21,10 +25,10 @@ const serverBase = {
   baseURL: 'http://localhost:8081/api/',
   responseType: 'json',
   withCredentials: true,
-  get: async function(url) {
+  get: async function(url, token) {
     const response = await fetch(this.baseURL + url, {
       method: 'GET',
-      credentials: 'include',
+      credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -35,11 +39,11 @@ const serverBase = {
       console.log(response.status);
       return data;
     } else {
-      throw new Error(response.status);
+      console.log(response.status);
+      return response.status;
     }
-    // return data;
   },
-  post: async function(url, body) {
+  post: async function(url, body, token) {
     const response = await fetch(this.baseURL + url, {
       method: 'POST',
       credentials: 'include',
@@ -50,12 +54,18 @@ const serverBase = {
       body: JSON.stringify(body)
     });
     const data = await response.json();
-    return data;
+    if (response.ok) {
+      console.log(response.status);
+      return data;
+    } else {
+      console.log(response.status);
+      return response.status;
+    }
   },
-  put: async function(url, body) {
+  put: async function(url, body, token) {
     const response = await fetch(this.baseURL + url, {
       method: 'PUT',
-      credentials: 'same-origin',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -63,7 +73,13 @@ const serverBase = {
       body: JSON.stringify(body)
     });
     const data = await response.json();
-    return data;
+    if (response.ok) {
+      console.log(response.status);
+      return data;
+    } else {
+      console.log(response.status);
+      return response.status;
+    }
   },
 };
 
