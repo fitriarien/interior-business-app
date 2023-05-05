@@ -4,6 +4,13 @@ import Swal from 'sweetalert2';
 import { serverBase } from '../util/serverApi';
 
 const ProductCard = ({product, setProducts, handleEditClick}) => {
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+  });
+
+const formattedPrice = formatter.format(product.estimated_cost);
+
   const deleteProduct = () => {
     serverBase.put(`product/delete/${product.product_id}/${localStorage.getItem('id')}`, null, localStorage.getItem('token'))
     .then(data => {
@@ -86,7 +93,7 @@ const ProductCard = ({product, setProducts, handleEditClick}) => {
         </div>
         <p className="text-gray-700 text-base">ID: {product.product_id}</p>
         <p className="text-gray-700 text-base">
-          {product.product_model} {product.estimated_cost}
+          {product.product_model} {formattedPrice}
         </p>
       </div>
     </div>

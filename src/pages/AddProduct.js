@@ -35,35 +35,42 @@ const AddProduct = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    
-    serverBase.post(`product/${localStorage.getItem('id')}`, {
-      product_name: dataProduct.name,
-      product_model: dataProduct.model,
-      estimated_cost: parseInt(dataProduct.costEstimation),
-      image_id: parseInt(dataProduct.imageId)
-    }, localStorage.getItem('token'))
-    .then(data => {
-      console.log("Add Product Success.");
-      Swal.fire(
-        'Submitted!',
-        'Your product has been submitted.',
-        'success'
-      )
-      setDataProduct({
-        name:"",
-        model:"",
-        costEstimation:"",
-        imageId:""
+    if (dataProduct.name !== '' || dataProduct.model !== '' || dataProduct.estimated_cost !== '') {
+      serverBase.post(`product/${localStorage.getItem('id')}`, {
+        product_name: dataProduct.name,
+        product_model: dataProduct.model,
+        estimated_cost: parseInt(dataProduct.costEstimation),
+        image_id: parseInt(dataProduct.imageId)
+      }, localStorage.getItem('token'))
+      .then(data => {
+        console.log("Add Product Success.");
+        Swal.fire(
+          'Submitted!',
+          'Your product has been submitted.',
+          'success'
+        )
+        setDataProduct({
+          name:"",
+          model:"",
+          costEstimation:"",
+          imageId:""
+        });
+      })
+      .catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!'
+        });
+        console.log(err);
       });
-    })
-    .catch(err => {
+    } else {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Something went wrong!'
+        text: 'Fill in the data correctly!'
       });
-      console.log(err);
-    })
+    }
 
     // fetch(`http://localhost:8081/api/product/${localStorage.getItem('id')}`, {
     //   method: 'POST',
@@ -169,6 +176,7 @@ const AddProduct = () => {
                 id="costEstimation"
                 name="costEstimation"
                 type="number"
+                min={0}
                 className="my-2 rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-black focus:z-10 sm:text-sm"
                 placeholder="5000000"
               />

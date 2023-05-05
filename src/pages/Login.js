@@ -66,16 +66,24 @@ const Login = () => {
           text: 'Your account is inactive!'
         });
       } else {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("id", data.id);
-        dispatch({type: 'LOGIN'});
+        if (data.role === 'admin') {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("id", data.id);
+          dispatch({type: 'LOGIN'});
 
-        if (location.state) {
-            navigate(`${location.state.from.pathname}`)
+          if (location.state) {
+              navigate(`${location.state.from.pathname}`)
+          } else {
+              navigate('/');
+          }
+          console.log("Login Success.");
         } else {
-            navigate('/');
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Customer cannot login!'
+          });
         }
-        console.log("Login Success.");
       }
     })
     .catch(err => {

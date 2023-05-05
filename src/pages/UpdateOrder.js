@@ -189,15 +189,19 @@ const UpdateOrder = () => {
               />
             </div> */}
             <div className="my-5">
-              <label className="">
-                Product Size (m2)
+              <label className="flex flex-row">
+                <div>Product Size (m</div>
+                <sup className='leading-3 mt-2'>2</sup>
+                <div>)</div>
+                {/* Product Size (m2) */}
               </label>
               <input
                 onChange={handleChange}
                 value={orderDet.product_size}
                 id="product_size"
                 name="product_size"
-                type="text"
+                type="number"
+                min={0}
                 className="my-2 rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-black focus:z-10 sm:text-sm"
                 placeholder="4"
               />
@@ -226,6 +230,7 @@ const UpdateOrder = () => {
                 id="product_cost"
                 name="product_cost"
                 type="number"
+                min={0}
                 className="my-2 rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-black focus:z-10 sm:text-sm"
                 placeholder="8000000"
               />
@@ -240,6 +245,7 @@ const UpdateOrder = () => {
                 id="estimated_time"
                 name="estimated_time"
                 type="number"
+                min={0}
                 className="my-2 rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-black focus:z-10 sm:text-sm"
                 placeholder="2"
               />

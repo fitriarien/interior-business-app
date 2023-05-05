@@ -1,5 +1,7 @@
+const apiUrl = 'http://localhost:8081/';
+
 const serverRoot = {
-  baseURL: 'http://localhost:8081/',
+  baseURL: apiUrl,
   responseType: 'json',
   withCredentials: false,
   post: async function(url, body) {
@@ -22,7 +24,7 @@ const serverRoot = {
 }
 
 const serverBase = {
-  baseURL: 'http://localhost:8081/api/',
+  baseURL: apiUrl+'api/',
   responseType: 'json',
   withCredentials: true,
   get: async function(url, token) {

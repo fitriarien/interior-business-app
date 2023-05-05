@@ -270,6 +270,7 @@ const UpdateProduct = () => {
                 id="estimated_cost"
                 name="estimated_cost"
                 type="number"
+                min={0}
                 className="my-2 rounded-md appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-black focus:z-10 sm:text-sm"
                 placeholder="5000000"
               />

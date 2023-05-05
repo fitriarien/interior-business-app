@@ -114,7 +114,7 @@ const Register = () => {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Invalid Username, Email & Password. Please re-enter the username, email & password!'
+          text: 'Please re-enter the form correctly!'
         });
       } else {
         localStorage.setItem("token", data.token )
