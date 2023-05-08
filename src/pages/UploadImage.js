@@ -24,7 +24,7 @@ const UploadImage = () => {
     uploadBytes(storageRef, e.target.files[0])
     .then(snapshot => {
       console.log("Successfully uploaded."); 
-      return getDownloadURL(storageRef) // get url storage
+      return getDownloadURL(storageRef)
     })
     .then(downloadUrl => {
       console.log(downloadUrl);
@@ -44,13 +44,22 @@ const UploadImage = () => {
       image_name: dataImage.name,
       image: dataImage.path
     }, localStorage.getItem('token'))
-    .then(data => {
-      console.log("Upload Image Success.");
-      Swal.fire(
-        'Submitted!',
-        'Your image has been submitted.',
-        'success'
-      );
+    .then(status => {
+      console.log(status);
+      if (status === 201) {
+        console.log("Upload Image Success.");
+        Swal.fire(
+          'Submitted!',
+          'Your image has been submitted.',
+          'success'
+        );
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!'
+        });
+      }
       setDataImage({
         name: "",
         path: ""
@@ -64,70 +73,14 @@ const UploadImage = () => {
       });
       console.log(err);
     })
-
-    // fetch(`http://localhost:8081/api/image/${localStorage.getItem('id')}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     image_name: dataImage.name,
-    //     image: dataImage.path
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //   }
-    // })
-    // .then((response) => {
-    //   if(response.ok) {
-    //     return response.json();
-    //   } else {
-    //     throw new Error(response.status)
-    //   }
-    // })
-    // .then(data => {
-    //   console.log("Upload Image Success.");
-    //   setDataImage({
-    //     name: "",
-    //     path: ""
-    //   });
-    // })
-    // .catch(err => {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'Something went wrong!'
-    //   });
-    //   console.log(err);
-    // })
   }
-
-  // function toSubmit(e) {
-  //   e.preventDefault();
-
-  //   Swal.fire({
-  //     title: 'Do you want to submit the image?',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, submit!'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       Swal.fire(
-  //         'Submitted!',
-  //         'Your image has been submitted.',
-  //         'success'
-  //       );
-  //       handleSubmit();
-  //     }
-  //   });
-  // }
 
   return (
     <div className='container mx-auto pt-4 pb-10 my-5 bg-white opacity-80 rounded-xl'>
       <div className="mx-auto max-w-screen-md py-5 px-20">
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="-space-y-px">
-            <div className="my-5">
+            <div className="mt-5">
             <label htmlFor="name">
               Alt Image
             </label>
@@ -141,7 +94,7 @@ const UploadImage = () => {
               placeholder="TV Cabinet"
             />
             </div>
-            <div className="my-5">
+            <div className="mb-10">
               <label htmlFor="imageId" className="">
                 Upload Image
               </label>

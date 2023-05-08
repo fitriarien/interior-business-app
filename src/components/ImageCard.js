@@ -24,57 +24,16 @@ const ImageCard = ({image, setImages}) => {
         text: 'Something went wrong!'
       });
     });
-
-    // try {
-    //   const response = await fetch(`http://localhost:8081/api/image/${image.image_id}/${localStorage.getItem('id')}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Content-type': 'application/json; charset=UTF-8',
-    //       'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //     }
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error('Failed to delete product.');
-    //   }
-
-    //   setImages((prevItems) =>
-    //     prevItems.filter((prevItem) => prevItem.image_id !== image.image_id)
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
-
-  // const handleDelete = () => {
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: "You won't be able to revert this!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, delete it!'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       Swal.fire(
-  //         'Deleted!',
-  //         'Your file has been deleted.',
-  //         'success'
-  //       );
-  //       deleteImage();
-  //     }
-  //   });
-  // }
   
   return (
     <div className="max-w-sm mx-5 rounded overflow-hidden shadow-lg justify-center cursor-pointer">
       <div className="px-6 py-4">
-        <img className="w-72 h-56" src={image.image} alt={image.image_name}/>
+        <img className="w-56 h-56 object-contain pt-5" src={image.image} alt={image.image_name}/>
         <div className="flex justify-between items-center mb-4">
-          <div className="font-bold text-md">{image.image_name}</div>
+          <div className="font-bold text-md ml-3">{image.image_name}</div>
           <div className="flex items-center">
-            <FaTrash className="text-gray-500 cursor-pointer" onClick={deleteImage}/>
+            <FaTrash className="text-gray-200 hover:text-gray-500 cursor-pointer m-3" onClick={deleteImage}/>
           </div>
         </div>
       </div>

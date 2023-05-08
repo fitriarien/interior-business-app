@@ -130,42 +130,6 @@ const Register = () => {
       });
       console.log(err);
     });
-    
-    // fetch('http://localhost:8081/register', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     username: userRegist.username,
-    //     password: userRegist.password,
-    //     role: "admin",
-    //     name: userRegist.name,
-    //     email: userRegist.email,
-    //     contact: userRegist.contact,
-    //     address: userRegist.address
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //   }
-    // })
-    // .then((response) => {
-    //   if(response.ok) {
-    //     return response.json();
-    //   } else {
-    //     throw new Error(response.status)
-    //   }
-    // })
-    // .then(data => {
-    //   localStorage.setItem("token", data.token )
-    //   navigate('/login');
-    //   console.log("Register success.");
-    // })
-    // .catch(err => {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'Something went wrong!'
-    //   });
-    //   console.log(err);
-    // })
   }
 
   function showRequirements() {

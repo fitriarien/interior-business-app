@@ -8,7 +8,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [ userLogin, setUserLogin ] = useState({ username: "", password: ""});
   const [username, setUsername] = useState('');
   const [isValidUname, setIsValidUname] = useState(false);
   const [password, setPassword] = useState('');
@@ -29,13 +28,6 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  function handleChange(e) {
-    e.preventDefault();
-    setUserLogin(currUserLogin => {
-        return { ...currUserLogin, [e.target.id]:e.target.value}
-    })
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
     authenticateUser();
@@ -47,23 +39,11 @@ const Login = () => {
       password: password
     })
     .then(data => {
-      if (data === 403) {
+      if (data === 403 || data === 404 || data === 406) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Password is wrong!'
-        });
-      } else if  (data === 404) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Your account is not found!'
-        });
-      } else if (data === 406) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Your account is inactive!'
+          text: `Username & password you input doesn't match!`
         });
       } else {
         if (data.role === 'admin') {
@@ -76,12 +56,12 @@ const Login = () => {
           } else {
               navigate('/');
           }
-          console.log("Login Success.");
+          // console.log("Login Success.");
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Customer cannot login!'
+            text: 'You cannot login!'
           });
         }
       }
@@ -94,41 +74,6 @@ const Login = () => {
       });
       console.log(err);
     });
-
-    // fetch('http://localhost:8081/login', {
-    //   method: 'POST',
-    //   body: JSON.stringify(userLogin),
-    //   headers: {
-    //       'Content-type': 'application/json; charset=UTF-8',
-    //   }
-    // })
-    // .then((response) => {
-    //   if(response.ok) {
-    //     return response.json();
-    //   } else {
-    //     throw new Error(response.status)
-    //   }
-    // })
-    // .then(data => {
-    //   localStorage.setItem("token", data.token);
-    //   localStorage.setItem("id", data.id);
-    //   dispatch({type: 'LOGIN'});
-
-    //   if (location.state) {
-    //       navigate(`${location.state.from.pathname}`)
-    //   } else {
-    //       navigate('/');
-    //   }
-    //   console.log("Login Success.");
-    // })
-    // .catch(err => {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'Something went wrong!'
-    //   });
-    //   console.log(err);
-    // })
   }
 
   return (

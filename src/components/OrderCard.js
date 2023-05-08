@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaInfoCircle } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 const OrderCard = ({order, handleEditClick}) => {
   const [orderDetList, setOrderDetList] = useState([]);
@@ -13,10 +14,13 @@ const OrderCard = ({order, handleEditClick}) => {
       <div className="px-6 py-4">
         <div className="items-center">
           <div className="flex justify-between items-center">
-            <div className="font-bold text-xl mb-2">{order.order_code}</div>
+            <div className="font-bold text-lg mb-2">{order.order_code}</div>
             {orderDetList && 
-              <div className="flex items-center">
+              <div className="flex flex-row items-center justify-center">
                 <FaEdit className="text-gray-500 mr-4 cursor-pointer" onClick={() => handleEditClick(order.order_id)}/>
+                <NavLink to={{ pathname: `/order/detail/${order.order_id}`}}>
+                  <FaInfoCircle className="text-gray-500 mr-4 cursor-pointer" />
+                </NavLink>
               </div>
             }
           </div>

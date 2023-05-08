@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import OrderCard from '../components/OrderCard';
 import Swal from 'sweetalert2';
 import { serverBase } from '../util/serverApi';
+import Pagination from '../components/Pagination';
+import { useSelector, useDispatch } from 'react-redux';
 
 const UpdateOrder = () => {
   const [ orders, setOrders ] = useState([]);
@@ -13,32 +15,47 @@ const UpdateOrder = () => {
     product_theme: "",
     product_cost: ""
   });
+
+  const currentPage = useSelector(state => state.pageRed);
+  // const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const dispatch = useDispatch();
+
   const [products_id_name, setProducts_id_name] = useState([]);
-  const [productList, setProductList] = useState([]);
   const [orderId, setOrderId] = useState(0);
   const formRef = useRef(null);
 
   function fetchOrders() {
-    serverBase.get('order/', localStorage.getItem('token'))
+    serverBase.get(`orders?page=${currentPage-1}&size=3`, localStorage.getItem('token'))
     .then(data => {
-      setOrders(data);
-      // console.log(data);
+      setOrders(data.content);
+      setTotalPages(data.totalPages);
+      console.log(currentPage);
+      dispatch({type: 'SET_PAGE', payload: currentPage});
     })
     .catch(error => {
       console.log(error);
     })
+
+    // without pagination
+    // serverBase.get('order/', localStorage.getItem('token'))
+    // .then(data => {
+    //   setOrders(data);
+    //   console.log(data);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // })
   }
 
   function fetchProducts() {
     setProducts_id_name([]);
     serverBase.get('product/', localStorage.getItem('token'))
     .then(data => {
-      setProducts_id_name(data.map(product => {
-        if (product.product_status === 1) {
-          return { id: product.product_id, name: product.product_name };
-        } else {
-          return { id: null, name: null }; // return a default object
-        }
+      // console.log(data);
+      const filteredProducts = data.filter(item => item.product_status !== 0);
+      setProducts_id_name(filteredProducts.map(product => {
+        return { id: product.product_id, name: product.product_name };
       }));
     })
     .catch(err => {
@@ -49,27 +66,18 @@ const UpdateOrder = () => {
   useEffect(() => {
     fetchOrders();
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   function handleEditClick(order_id) {
     console.log(`Clicked order ${order_id}`);
     formRef.current.scrollIntoView({ behavior: 'smooth' });
     setOrderId(order_id);
 
-    orders.forEach(order => {
+    orders.map(order => {
       if (order.order_id === order_id) {
         setOrderDet(prev => (
           {...prev, order_id: order_id}
         ));
-
-        // setOrderDet({
-        //   order_id: order_id,
-        //   estimated_time: "",
-        //   product_id: "",
-        //   product_size: "",
-        //   product_theme: "",
-        //   product_cost: ""
-        // });
       }
     });
   }
@@ -124,20 +132,24 @@ const UpdateOrder = () => {
   
   return (
     <div className='container mx-auto px-4 mb-5 bg-white rounded-xl'>
+      <div className='mx-12 my-5 flex justify-end text-xl'>
+        <Pagination totalPages={totalPages} />
+      </div>
       <div className='flex flex-row flex-wrap justify-center'>
-        {orders.map(order => (
-          <OrderCard key={order.order_id} order={order} handleEditClick={handleEditClick}/>
+        {orders.length > 0 && orders.map(order => (
+          <OrderCard key={order.order_id} order={order} handleEditClick={handleEditClick} />
         ))}
       </div>
+      
       <div className="mx-auto max-w-screen-md py-5 px-20">
         <div id="header">
-          <h3 className="text-center text-3xl font-bold text-gray-900">
+          <h3 className="text-center text-2xl font-bold text-gray-900">
             Update Order
           </h3>
         </div>
         <form ref={formRef} className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="-space-y-px">
-            <div className="my-5">
+            <div className="mt-5">
               <label htmlFor="order_id" className="">
                 Order ID
               </label>

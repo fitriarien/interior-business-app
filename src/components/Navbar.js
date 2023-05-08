@@ -43,7 +43,7 @@ const Navbar = () => {
             to='/order' 
             style={({ isActive }) => ({ fontWeight: isActive ? "bold" : "normal" })}
           >
-            Update Order
+            Orders
           </NavLink>
         </li>
       </ul>

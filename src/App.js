@@ -12,6 +12,7 @@ import AddProduct from './pages/AddProduct';
 import UploadImage from './pages/UploadImage';
 import DeleteImage from './pages/DeleteImage';
 import PrivateRoute from './components/PrivateRoute';
+import OrderDetail from './pages/OrderDetail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={<Login />}/>
+        
         <Route path='/product' element={
           <PrivateRoute>
             <Product />
@@ -37,6 +39,7 @@ function App() {
             </PrivateRoute>
           }/>
         </Route>
+        
         <Route path='/image' element={
           <PrivateRoute>
             <Image />
@@ -53,11 +56,17 @@ function App() {
             </PrivateRoute>
           }/>
         </Route>
+        
         <Route path='/order' element={
           <PrivateRoute>
             <UpdateOrder />
           </PrivateRoute>}
         />
+        <Route path='/order/detail/:id' element={
+            <PrivateRoute>
+              <OrderDetail />
+            </PrivateRoute>
+        }/>
       </Routes>
     </div>
   );

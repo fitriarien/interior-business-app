@@ -32,41 +32,6 @@ const Logout = () => {
       });
       console.log(err);
     })
-
-    // fetch('http://localhost:8081/api/logout', {
-    //   method: 'POST',
-    //   body: JSON.stringify(),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //   }
-    // })
-    // .then((response) => {
-    //   if(response.ok) {
-    //     return response.json();
-    //   } else {
-    //     throw new Error(response.status)
-    //   }
-    // })
-    // .then(data => {
-    //   localStorage.clear();
-    //   dispatch({type: 'LOGOUT'});
-    //   Swal.fire(
-    //     'Successfully Logout!',
-    //     '',
-    //     'success'
-    //   );
-    //   navigate('/login');
-    //   console.log("Logout Success.");
-    // })
-    // .catch(err => {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'Something went wrong!'
-    //   });
-    //   console.log(err);
-    // })
   }
 
   return (

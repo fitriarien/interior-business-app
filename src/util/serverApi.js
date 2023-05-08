@@ -17,7 +17,6 @@ const serverRoot = {
       console.log(response.status);
       return data;
     } else {
-      // throw new Error(response.status);
       return response.status;
     }
   }
@@ -56,13 +55,7 @@ const serverBase = {
       body: JSON.stringify(body)
     });
     const data = await response.json();
-    if (response.ok) {
-      console.log(response.status);
-      return data;
-    } else {
-      console.log(response.status);
-      return response.status;
-    }
+    return response.status;
   },
   put: async function(url, body, token) {
     const response = await fetch(this.baseURL + url, {

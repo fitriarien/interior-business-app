@@ -22,42 +22,10 @@ const UpdateProduct = () => {
     .then(data => {
       const filteredProducts = data.filter(prod => prod.product_status !== 0);
       setProducts(filteredProducts);
-      // console.log(filteredProducts);
-      // setImages(filteredProducts.map(item => {
-      //   if (item.imageDAO?.image_status === 1) {
-      //     return { id: item.imageDAO?.image_id, name: item.imageDAO?.image_name };
-      //   } else {
-      //     return { id: null, name: null };
-      //   }
-      // }))
     })
     .catch(error => {
       console.log(error);
     });
-
-    // fetch(`http://localhost:8081/api/product/`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //   }
-    // })
-    // .then(response => {
-    //   if (response.ok) {
-    //     console.log(response.status);
-    //     return response.json();
-    //   } else {
-    //     throw new Error(response.status);
-    //   }
-    // })
-    // .then(data => {
-    //   const filteredProducts = data.filter(prod => prod.product_status !== 0);
-    //   setProducts(filteredProducts);
-    //   // console.log(filteredProducts);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // })
   }
 
   function fetchImages() {
@@ -95,9 +63,6 @@ const UpdateProduct = () => {
         })
       }
     })
-    // setDataProduct(prevData => {
-    //   return { ...prevData, ...products.find(curr => curr.product_id === product_id) };
-    // });
   }
 
   function handleChange(e) {
@@ -142,63 +107,7 @@ const UpdateProduct = () => {
       });
       console.log(err);
     });
-
-    // fetch(`http://localhost:8081/api/product/${productId}/${localStorage.getItem('id')}`, {
-    //   method: 'PUT',
-    //   body: JSON.stringify({
-    //     product_name: dataProduct.product_name,
-    //     product_model: dataProduct.product_model,
-    //     estimated_cost: dataProduct.estimated_cost,
-    //     image_id: dataProduct.image_id
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    //   }
-    // })
-    // .then((response) => {
-    //   if(response.ok) {
-    //     return response.json();
-    //   } else {
-    //     throw new Error(response.status)
-    //   }
-    // })
-    // .then(data => {
-    //   setIsUpdated(true);
-    //   console.log("Update Product Success.");
-    // })
-    // .catch(err => {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'Something went wrong!'
-    //   });
-    //   console.log(err);
-    // })
   }
-
-  // const toSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   Swal.fire({
-  //     title: 'Do you want to submit the product?',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, submit!'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       handleSubmit();
-  //       Swal.fire(
-  //         'Updated!',
-  //         'Your product has been updated.',
-  //         'success'
-  //       );
-  //       setIsUpdated(false);
-  //     }
-  //   });
-  // }
 
   return (
     <div className='container mx-auto pt-4 pb-10 my-5 bg-white rounded-xl'>
@@ -212,12 +121,12 @@ const UpdateProduct = () => {
       <div className="mx-auto max-w-screen-md py-5 px-20">
         <form ref={formRef} className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div id="header">
-            <h3 className="text-center text-3xl font-bold text-gray-900">
+            <h3 className="text-center text-2xl font-bold text-gray-900">
               Update Product
             </h3>
           </div>
           <div className="-space-y-px">
-            <div className="my-5">
+            <div className="mt-5">
               <label htmlFor="product_id">
                 Product ID
               </label>
