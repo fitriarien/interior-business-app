@@ -1,8 +1,0 @@
-# Set default behavior to automatically detect language
-* linguist-detectable
-
-# Specify linguist-language for files with extension .jsx
-*.js linguist-language=JavaScript
-
-# Specify linguist-vendored for files in the vendor/ directory
-vendor/* linguist-vendored

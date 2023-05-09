@@ -1,7 +1,11 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Image = () => {
+  const dispatch = useDispatch();
+  dispatch({type: 'SET_PAGE_IMAGE', payload: 1});
+
   return (
     <div className='text-black px-5 py-2 text-left mx-24'>
       <NavLink 

@@ -12,7 +12,7 @@ const OrderDetail = () => {
   const [paymentList, setPaymentList] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentPage = useSelector(state => state.pageRed);
+  const currentPage = useSelector(state => state.orderPage);
 
   const formatter = new Intl.NumberFormat('id-ID', {
     style: 'currency',

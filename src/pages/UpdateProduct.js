@@ -2,6 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import ProductCard from '../components/ProductCard';
 import Swal from 'sweetalert2';
 import { serverBase } from '../util/serverApi';
+import { useSelector, useDispatch } from 'react-redux';
+import Pagination from '../components/Pagination';
 
 const UpdateProduct = () => {
   const [products, setProducts] = useState([]);
@@ -12,20 +14,35 @@ const UpdateProduct = () => {
     estimated_cost:"",
     image_id:""
   });
-  const [isUpdated, setIsUpdated] = useState(false);
   const [productId, setProductId] = useState(0);
   const [images, setImages] = useState([]);
   const formRef = useRef(null);
 
+  const currentPage = useSelector(state => state.productPage);
+  const [totalPages, setTotalPages] = useState(1);
+  const dispatch = useDispatch();
+
   function fetchProducts() {
-    serverBase.get('product/', localStorage.getItem('token'))
+    // serverBase.get('product/', localStorage.getItem('token'))
+    // .then(data => {
+    //   const filteredProducts = data.filter(prod => prod.product_status !== 0);
+    //   setProducts(filteredProducts);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
+
+    serverBase.get(`products?page=${currentPage-1}&size=3`, localStorage.getItem('token'))
     .then(data => {
-      const filteredProducts = data.filter(prod => prod.product_status !== 0);
-      setProducts(filteredProducts);
+      setProducts(data.content);
+      // console.log(data.content);
+      setTotalPages(data.totalPages);
+      console.log(currentPage);
+      dispatch({type: 'SET_PAGE_PRODUCT', payload: currentPage});
     })
     .catch(error => {
       console.log(error);
-    });
+    })
   }
 
   function fetchImages() {
@@ -46,7 +63,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     fetchProducts();
     fetchImages();
-  }, [isUpdated]);
+  }, [currentPage]);
 
   function handleEditClick(product_id) {
     console.log(product_id);
@@ -90,7 +107,19 @@ const UpdateProduct = () => {
           text: 'Choose another image!'
         });
       } else {
-        setIsUpdated(!isUpdated);
+        setProducts(products.map(product => {
+          if (product.product_id === productId) {
+            return {
+              ...product,
+              product_name: dataProduct.product_name,
+              product_model: dataProduct.product_model,
+              estimated_cost: dataProduct.estimated_cost,
+              image_id: dataProduct.image_id
+            };
+          } else {
+            return product;
+          }
+        }));
         console.log("Update Product Success.");
         Swal.fire(
           'Updated!',
@@ -111,6 +140,9 @@ const UpdateProduct = () => {
 
   return (
     <div className='container mx-auto pt-4 pb-10 my-5 bg-white rounded-xl'>
+      <div className='mx-12 flex justify-end text-xl'>
+        <Pagination totalPages={totalPages} router='product' />
+      </div>
       <div className="py-5 px-2 flex flex-row flex-wrap justify-center">
         {products.map((product) => {
           return (

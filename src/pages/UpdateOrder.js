@@ -16,8 +16,7 @@ const UpdateOrder = () => {
     product_cost: ""
   });
 
-  const currentPage = useSelector(state => state.pageRed);
-  // const [pageNumber, setPageNumber] = useState(1);
+  const currentPage = useSelector(state => state.orderPage);
   const [totalPages, setTotalPages] = useState(1);
   const dispatch = useDispatch();
 
@@ -29,6 +28,7 @@ const UpdateOrder = () => {
     serverBase.get(`orders?page=${currentPage-1}&size=3`, localStorage.getItem('token'))
     .then(data => {
       setOrders(data.content);
+      // console.log(data.content);
       setTotalPages(data.totalPages);
       console.log(currentPage);
       dispatch({type: 'SET_PAGE', payload: currentPage});
@@ -55,7 +55,7 @@ const UpdateOrder = () => {
       // console.log(data);
       const filteredProducts = data.filter(item => item.product_status !== 0);
       setProducts_id_name(filteredProducts.map(product => {
-        return { id: product.product_id, name: product.product_name };
+        return { id: product.product_id, product_name: product.product_name };
       }));
     })
     .catch(err => {
@@ -119,6 +119,25 @@ const UpdateOrder = () => {
         product_cost: ""
       });
       fetchOrders();
+      // setOrders(orders.map(order => {
+      //   if (order.order_id === orderId) {
+      //     return {
+      //       ...order,
+      //       orderDetDAOList: [
+      //         {
+      //           ...order.orderDetDAOList[0],
+      //           estimated_time: orderDet.estimated_time,
+      //           productDAO: products_id_name,
+      //           product_size: orderDet.product_size,
+      //           product_theme: orderDet.product_theme,
+      //           product_cost: orderDet.product_cost
+      //         }
+      //       ]
+      //     }
+      //   } else {
+      //     return order;
+      //   }
+      // }));
     })
     .catch(err => {
       Swal.fire({
@@ -133,10 +152,10 @@ const UpdateOrder = () => {
   return (
     <div className='container mx-auto px-4 mb-5 bg-white rounded-xl'>
       <div className='mx-12 my-5 flex justify-end text-xl'>
-        <Pagination totalPages={totalPages} />
+        <Pagination totalPages={totalPages} router='order' />
       </div>
       <div className='flex flex-row flex-wrap justify-center'>
-        {orders.length > 0 && orders.map(order => (
+        {orders.length > 0 && orders.map((order) => (
           <OrderCard key={order.order_id} order={order} handleEditClick={handleEditClick} />
         ))}
       </div>
@@ -179,7 +198,7 @@ const UpdateOrder = () => {
                 {products_id_name.map(product => (
                   product.id !== null && (
                     <option key={product.id} value={product.id}>
-                      {product.id + ". " + product.name}
+                      {product.id + ". " + product.product_name}
                     </option>
                   )
                 ))}

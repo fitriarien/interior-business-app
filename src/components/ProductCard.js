@@ -34,14 +34,16 @@ const formattedPrice = formatter.format(product.estimated_cost);
   };
 
   return (
-    <div className="max-w-sm mx-5 rounded overflow-hidden shadow-lg justify-center cursor-pointer">
+    <div className="max-w-sm mx-5 rounded overflow-hidden shadow-lg flex justify-center items-center cursor-pointer">
       <div className="px-6 py-4">
-        { product.imageDAO?.image 
-        ? 
-          <img className="w-56 h-56 object-contain pt-5" src={product.imageDAO.image} alt={product.imageDAO.image_name}/> 
-        :
-          <img className="w-56 h-56 object-contain pt-5" src='https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png' alt='not-available'/>
-        }
+        <div className="flex flex-col items-center">
+          { product.imageDAO?.image 
+          ? 
+            <img className="w-56 h-56 object-contain pt-5" src={product.imageDAO.image} alt={product.imageDAO.image_name}/> 
+          :
+            <img className="w-56 h-56 object-contain pt-5" src='https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png' alt='not-available'/>
+          }
+        </div>
         <div className="flex justify-between items-center">
           <div className="font-bold text-base">{product.product_name}</div>
           <div className="flex items-center">

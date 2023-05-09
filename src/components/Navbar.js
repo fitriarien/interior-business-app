@@ -1,8 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logout from './Logout';
+import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+
+  function handleOrder() {
+    dispatch({type: 'SET_PAGE', payload: 1});
+  }
+  
   return (
     <nav className="navbar hometext py-6 sm:px-6 md:px-8 lg:px-28 flex items-center justify-between flex-wrap">
       <div className='text-white flex text-3xl px-5'>
@@ -42,6 +49,7 @@ const Navbar = () => {
             className="text-white hover:font-bold" 
             to='/order' 
             style={({ isActive }) => ({ fontWeight: isActive ? "bold" : "normal" })}
+            onClick={handleOrder}
           >
             Orders
           </NavLink>

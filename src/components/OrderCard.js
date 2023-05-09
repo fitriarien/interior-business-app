@@ -6,8 +6,9 @@ const OrderCard = ({order, handleEditClick}) => {
   const [orderDetList, setOrderDetList] = useState([]);
 
   useEffect(() => {
+    console.log(order);
     setOrderDetList(order.orderDetDAOList);
-  }, [order.orderDetDAOList]);
+  }, [order]);
 
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg w-64 h-auto justify-center cursor-pointer m-5">
