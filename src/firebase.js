@@ -6,12 +6,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDXgDwYTzlvDmIltmfHVPTBWqc9LELv744",
-  authDomain: "instudio-dc36b.firebaseapp.com",
-  projectId: "instudio-dc36b",
-  storageBucket: "instudio-dc36b.appspot.com",
-  messagingSenderId: "646172851038",
-  appId: "1:646172851038:web:bcc7619ceb55464908edcf"
+  apiKey: "AIzaSyBxgehMkKM45pqCYn8YyXulyzCZz6c8JFU",
+  authDomain: "instudio2.firebaseapp.com",
+  projectId: "instudio2",
+  storageBucket: "instudio2.appspot.com",
+  messagingSenderId: "515791087233",
+  appId: "1:515791087233:web:ac3667b4ab3eaf04114f80"
 };
 
 // Initialize Firebase

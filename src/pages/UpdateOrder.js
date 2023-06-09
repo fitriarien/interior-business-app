@@ -118,26 +118,26 @@ const UpdateOrder = () => {
         product_theme: "",
         product_cost: ""
       });
-      fetchOrders();
-      // setOrders(orders.map(order => {
-      //   if (order.order_id === orderId) {
-      //     return {
-      //       ...order,
-      //       orderDetDAOList: [
-      //         {
-      //           ...order.orderDetDAOList[0],
-      //           estimated_time: orderDet.estimated_time,
-      //           productDAO: products_id_name,
-      //           product_size: orderDet.product_size,
-      //           product_theme: orderDet.product_theme,
-      //           product_cost: orderDet.product_cost
-      //         }
-      //       ]
-      //     }
-      //   } else {
-      //     return order;
-      //   }
-      // }));
+
+      setOrders(orders.map(order => {
+        if (order.order_id === orderId) {
+          return {
+            ...order,
+            orderDetDAOList: [
+              ...order.orderDetDAOList,
+              {
+                estimated_time: orderDet.estimated_time,
+                productDAO: products_id_name,
+                product_size: orderDet.product_size,
+                product_theme: orderDet.product_theme,
+                product_cost: orderDet.product_cost
+              }
+            ]
+          };
+        } else {
+          return order;
+        }
+      }));
     })
     .catch(err => {
       Swal.fire({

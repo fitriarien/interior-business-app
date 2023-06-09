@@ -9,6 +9,8 @@ const UploadImage = () => {
     name: "",
     path: ""
   });
+  const [firebaseStatus, setFirebaseStatus] = useState(true);
+  const [firebaseErrMsg, setFirebaseErrMsg] = useState("");
 
   function handleChange(e) {
     e.preventDefault();
@@ -33,6 +35,8 @@ const UploadImage = () => {
       });
     })
     .catch(err => {
+      setFirebaseStatus(false);
+      setFirebaseErrMsg(err);
       console.log(err);
     })
   }
